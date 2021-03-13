@@ -11,8 +11,23 @@ const client = new Discord.Client();
 
 client.login(token);
 
+const prefix = '!'
+
+var level
+
 //login callback
 client.on('ready', () => {
-    var level = levelGenerator.CreateRoom(10,10,20)
-    console.log(level)
+    level = levelGenerator.CreateFloor()
+    //console.log(level)
+})
+
+client.on('message', message => {
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
+
+    if (command === "map"){
+        message.reply(level)
+    }
 })
